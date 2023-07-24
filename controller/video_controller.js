@@ -1,38 +1,43 @@
+const Video = require("../models/video");
 
-const Video = require('../models/video');
-
-const getAll = async (req,res)=>{
+const getAll = async (req, res) => {
   try {
-    let data = await Video.find()
+    let data = await Video.find();
 
     res.json({
-      message : "Success get data",
-      data : data ?? []
-    })
+      message: "Success get data",
+      data: data ?? [],
+    });
   } catch (error) {
     res.status(400).json({
-      message : error.message
-    })
+      message: error.message,
+    });
   }
-}
+};
 
-const getById = async (req,res) => {
+const getById = async (req, res) => {
   try {
-    let id = req.params.id
-    let data = await Video.findById(id)
+    let id = req.params.id;
 
-    if (!data) return res.status(404).json({ message : "Data not found" })
+    if (!id) {
+      throw Error("Video id is required")
+    }
+
+    let data = await Video.findById(id);
+
+    if (!data) {
+      return res.status(404).json({ message: "Data not found" });
+    }
 
     res.json({
-      message : "Success get data",
-      data : data
-    })
-
+      message: "Success get data",
+      data: data,
+    });
   } catch (error) {
     res.status(400).json({
-      message : error.message
-    })
+      message: error.message,
+    });
   }
-}
+};
 
-module.exports = { getAll, getById }
+module.exports = { getAll, getById };
