@@ -1,9 +1,6 @@
 const router = require('express').Router();
+const productController = require("../controller/product_controller")
 
-router.get("/", (req,res)=>{
-  res.json({
-    message : "Ini Route Product"
-  })
-})
+router.get("/product/:video_id", productController.getVideoProduct )
 
 module.exports = router
