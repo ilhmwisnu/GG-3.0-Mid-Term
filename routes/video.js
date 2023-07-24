@@ -1,9 +1,8 @@
 const router = require('express').Router();
+const videoController = require("../controller/video_controller")
 
-router.get("/", (req,res)=>{
-  res.json({
-    message : "Ini Route Video"
-  })
-})
+router.get("/", videoController.getAll )
+
+router.get("/:id", videoController.getById )
 
 module.exports = router
