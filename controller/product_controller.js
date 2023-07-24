@@ -10,7 +10,7 @@ const getVideoProduct = async (req,res) => {
       throw Error("Video Id is required")
     }
 
-    let data = await Product.find({ video_id : mongoose.Types.ObjectId(video_id)})
+    let data = await Product.find({ video_id : new mongoose.Types.ObjectId(video_id)})
 
     res.json({
       message : "Success get data",
