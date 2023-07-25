@@ -1,6 +1,7 @@
-const Video = require("../models/video");
 const { default: mongoose } = require("mongoose")
+const Video = require("../models/video");
 const Product = require("../models/product")
+const Comment = require("../models/comment")
 
 const getAll = async (req, res) => {
   try {
@@ -44,7 +45,7 @@ const getById = async (req, res) => {
 
 const getProducts = async (req,res) => {
   try {
-    let video_id = req.params.video_id
+    let video_id = req.params.id
 
     if (!video_id) {
       throw Error("Video Id is required")
@@ -64,12 +65,53 @@ const getProducts = async (req,res) => {
   }
 }
 
-const getComments = (req,res) => {
+const getComments = async (req,res) => {
+  try {
+    let video_id = req.params.id
 
+    if (!video_id) {
+      throw Error("Video Id is required")
+    }
+
+    let data = await Comment.find({ video_id : new mongoose.Types.ObjectId(video_id)})
+
+    res.json({
+      message : "Success get data",
+      data : data ?? []
+    })
+
+  } catch (error) {
+    res.status(400).json({
+      message : error.message,
+    })
+  }
 }
 
-const addComment = (req,res) => {
+const addComment = async (req,res) => {
+  try {
+    let video_id = req.params.id
+    let { username, comment } = req.body
 
+    if (!video_id || !username || !comment) {
+      throw Error("Some data is missing")
+    }
+
+    await Comment.create({
+      video_id : video_id,
+      username : username,
+      comment : comment,
+      created_at : Date.now()
+    })
+
+    res.json({
+      message : "Success create comment",
+    })
+
+  } catch (error) {
+    res.status(400).json({
+      message : error.message,
+    })
+  }
 }
 
 module.exports = { getAll, getById, getProducts, getComments, addComment };
