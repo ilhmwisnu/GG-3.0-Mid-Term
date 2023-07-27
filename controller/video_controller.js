@@ -5,7 +5,16 @@ const Comment = require("../models/comment")
 
 const getAll = async (req, res) => {
   try {
-    let data = await Video.find();
+    let keyword = req.query.keyword
+    let data
+
+
+    if (keyword) {
+      data = await Video.find({ "title": { $regex: '.*' + keyword + '.*' } })
+    }else{
+      data = await Video.find();
+    }
+
 
     res.json({
       message: "Success get data",
