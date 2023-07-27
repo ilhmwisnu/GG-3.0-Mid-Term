@@ -118,7 +118,7 @@
   ``` 
 
 ### **POST /video/:id/comment**  
-  Returns all comments for the specified video.
+  Create new comment for the specified video.
 * **URL Params**  
   *Required:* id=[String] 
 * **Data Params**  
